@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+@DataClassName('ContactoData')
 class ContactosSchema extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get nombre => text().withLength(min: 1, max: 100)();

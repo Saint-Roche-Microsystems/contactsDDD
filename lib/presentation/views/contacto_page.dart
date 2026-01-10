@@ -49,7 +49,7 @@ class ContactosPage extends ConsumerWidget {
                         nombre: nombreCtrl.text,
                         descripcion: descripcionCtrl.text,
                         foto: '',
-                        correo: '',
+                        correo: 'correoalgo',
                       ),
                     );
 
