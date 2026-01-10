@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import '../../core/database/sqlite_service.dart';
 import '../../data/datasource/contacto_local_datasource.dart';
 import '../../data/repositories/contacto_repository_impl.dart';
