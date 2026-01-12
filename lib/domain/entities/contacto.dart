@@ -33,4 +33,17 @@ class Contacto {
       'es_favorito': esFavorito ? 1 : 0,
     };
   }
+
+  /* VALIDATORS */
+  static bool _esCorreoValido(String correo) {
+    final regex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+    return regex.hasMatch(correo);
+  }
+
+  static bool validarCorreo(String correo) {
+    return _esCorreoValido(correo);
+  }
+
 }

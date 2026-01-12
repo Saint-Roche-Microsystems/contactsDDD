@@ -1,4 +1,9 @@
 import 'dart:io';
+import 'package:contactos/controllers/contacto_controller.dart';
+import 'package:contactos/presentation/views/forms/add_contact_form.dart';
+import 'package:contactos/presentation/views/main/empty_state_screen.dart';
+import 'package:contactos/presentation/views/main/error_state_screen.dart';
+import 'package:contactos/presentation/widgets/contact_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/contacto_provider.dart';
@@ -9,75 +14,66 @@ class ContactosPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final contactos = ref.watch(contactoProvider);
 
-    final TextEditingController nombreCtrl = TextEditingController();
-    final TextEditingController descripcionCtrl = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(title: Text('Contactos')),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: Text('Nuevo Contacto'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: nombreCtrl,
-                    decoration: InputDecoration(labelText: 'Nombre'),
-                  ),
-                  TextField(
-                    controller: descripcionCtrl,
-                    decoration: InputDecoration(labelText: 'Descripción'),
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Cancelar'),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (nombreCtrl.text.isEmpty ||
-                        descripcionCtrl.text.isEmpty) return;
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _mostrarFormularioAgregar(context, ref),
+        icon: Icon(Icons.person_add),
+        label: Text('Nuevo'),
+        tooltip: 'Agregar nuevo contacto',
+      ),
 
-                    await ref.read(contactoProvider.notifier).agregar(
-                      Contacto(
-                        nombre: nombreCtrl.text,
-                        descripcion: descripcionCtrl.text,
-                        foto: '',
-                        correo: 'correoalgo',
-                      ),
-                    );
+      body: contactos.when(
+        data: (contactos) {
+          if(contactos.isEmpty) {
+            return EmptyStateScreen();
+          }
 
-                    Navigator.pop(context);
-                  },
-                  child: Text('Guardar'),
-                ),
-              ],
+          return RefreshIndicator(
+            onRefresh: () async {
+              await ref.read(contactoProvider.notifier).cargar();
+            },
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              itemCount: contactos.length,
+              itemBuilder: (context, index) {
+                final contacto = contactos[index];
+                return ContactItem(contacto: contacto, mostrarFavorito: true,);
+              }
             ),
           );
         },
-      ),
-      body: contactos.when(
-        data: (list) => ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (_, i) => ListTile(
-            leading: list[i].foto.isNotEmpty
-                ? CircleAvatar(
-              backgroundImage: FileImage(File(list[i].foto)),
-            )
-                : CircleAvatar(child: Icon(Icons.person)),
-            title: Text(list[i].nombre),
-            subtitle: Text(list[i].descripcion),
+
+        loading: () => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text(
+                'Cargando contactos...',
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 14,
+                ),
+              ),
+            ],
           ),
         ),
-        loading: () => Center(child: CircularProgressIndicator()),
-        error: (e, _) => Text(e.toString()),
+        error: (error, _) => ErrorStateScreen(error: error, ref: ref),
       ),
     );
+  }
+
+  Future<void> _mostrarFormularioAgregar(BuildContext context, WidgetRef ref) async {
+    final nuevoContacto = await showDialog<Contacto>(
+      context: context,
+      builder: (context) => AddContactForm(),
+    );
+
+    if (nuevoContacto == null) return;
+
+    final controller = ContactoController(ref: ref, context: context);
+    await controller.agregarContacto(nuevoContacto);
   }
 }
