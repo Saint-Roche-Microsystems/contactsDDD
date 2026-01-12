@@ -1,6 +1,7 @@
-import 'package:contactos/presentation/providers/contacto_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../controllers/contacto_controller.dart';
 
 class ErrorStateScreen extends StatelessWidget {
   final Object error;
@@ -61,7 +62,8 @@ class ErrorStateScreen extends StatelessWidget {
 
             ElevatedButton.icon(
               onPressed: () {
-                ref.read(contactoProvider.notifier).cargar();
+                final controller = ContactoController(ref: ref, context: context);
+                controller.recargarContactos();
               },
               icon: Icon(Icons.refresh),
               label: Text('Reintentar'),

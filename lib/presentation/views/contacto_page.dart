@@ -1,15 +1,18 @@
-import 'dart:io';
-import 'package:contactos/controllers/contacto_controller.dart';
-import 'package:contactos/presentation/views/forms/add_contact_form.dart';
-import 'package:contactos/presentation/views/main/empty_state_screen.dart';
-import 'package:contactos/presentation/views/main/error_state_screen.dart';
-import 'package:contactos/presentation/widgets/contact_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/contacto_provider.dart';
+import '../../controllers/contacto_controller.dart';
 import '../../domain/entities/contacto.dart';
 
+import '../widgets/contact_item.dart';
+import '../widgets/contact_form_dialog.dart';
+import '../providers/contacto_provider.dart';
+
+import 'main/empty_state_screen.dart';
+import 'main/error_state_screen.dart';
+
 class ContactosPage extends ConsumerWidget {
+  const ContactosPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final contactos = ref.watch(contactoProvider);
@@ -31,14 +34,18 @@ class ContactosPage extends ConsumerWidget {
 
           return RefreshIndicator(
             onRefresh: () async {
-              await ref.read(contactoProvider.notifier).cargar();
+              final controller = ContactoController(ref: ref, context: context);
+              await controller.recargarContactos();
             },
             child: ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 8),
               itemCount: contactos.length,
               itemBuilder: (context, index) {
                 final contacto = contactos[index];
-                return ContactItem(contacto: contacto, mostrarFavorito: true,);
+                return ContactItem(
+                  contacto: contacto,
+                  mostrarFavorito: true,
+                );
               }
             ),
           );
@@ -68,7 +75,7 @@ class ContactosPage extends ConsumerWidget {
   Future<void> _mostrarFormularioAgregar(BuildContext context, WidgetRef ref) async {
     final nuevoContacto = await showDialog<Contacto>(
       context: context,
-      builder: (context) => AddContactForm(),
+      builder: (context) => ContactFormDialog(),
     );
 
     if (nuevoContacto == null) return;

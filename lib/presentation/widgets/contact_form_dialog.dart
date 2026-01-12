@@ -1,47 +1,45 @@
-import 'package:contactos/domain/entities/contacto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AddContactForm extends StatefulWidget {
-  const AddContactForm({super.key});
+import '../../../domain/entities/contacto.dart';
+
+class ContactFormDialog extends StatefulWidget {
+  const ContactFormDialog({super.key});
 
   @override
-  State<AddContactForm> createState() => _AddContactFormState();
+  State<ContactFormDialog> createState() => _ContactFormDialogState();
 }
 
-class _AddContactFormState extends State<AddContactForm> {
-  final nombreCtrl = TextEditingController();
-  final correoCtrl = TextEditingController();
-  final telefonoCtrl = TextEditingController();
-  final descripcionCtrl = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+class _ContactFormDialogState extends State<ContactFormDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _nombreCtrl = TextEditingController();
+  final _correoCtrl = TextEditingController();
+  final _telefonoCtrl = TextEditingController();
+  final _descripcionCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _nombreCtrl.dispose();
+    _correoCtrl.dispose();
+    _telefonoCtrl.dispose();
+    _descripcionCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.blue.shade50,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(Icons.person_add, color: Colors.blue),
-          ),
-          SizedBox(width: 12),
-          Text('Nuevo Contacto'),
-        ],
-      ),
+      title: Text('Nuevo Contacto'),
       content: SingleChildScrollView(
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
 
+              // NOMBRE
               TextFormField(
-                controller: nombreCtrl,
+                controller: _nombreCtrl,
                 decoration: InputDecoration(
                   labelText: 'Nombre *',
                   hintText: 'Ingresa el nombre completo',
@@ -66,8 +64,9 @@ class _AddContactFormState extends State<AddContactForm> {
               ),
               SizedBox(height: 16),
 
+              // CORREO
               TextFormField(
-                controller: correoCtrl,
+                controller: _correoCtrl,
                 decoration: InputDecoration(
                   labelText: 'Correo electrónico *',
                   hintText: 'ejemplo@correo.com',
@@ -91,8 +90,9 @@ class _AddContactFormState extends State<AddContactForm> {
               ),
               SizedBox(height: 16),
 
+              // TELÉFONO
               TextFormField(
-                controller: telefonoCtrl,
+                controller: _telefonoCtrl,
                 decoration: InputDecoration(
                   labelText: 'Teléfono *',
                   hintText: '0999999999',
@@ -120,8 +120,9 @@ class _AddContactFormState extends State<AddContactForm> {
               ),
               SizedBox(height: 16),
 
+              // DESCRIPCIÓN
               TextFormField(
-                controller: descripcionCtrl,
+                controller: _descripcionCtrl,
                 decoration: InputDecoration(
                   labelText: 'Descripción',
                   hintText: 'Información adicional (opcional)',
@@ -138,38 +139,12 @@ class _AddContactFormState extends State<AddContactForm> {
                 textCapitalization: TextCapitalization.sentences,
               ),
               SizedBox(height: 8),
-
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.info_outline,
-                        size: 20,
-                        color: Colors.blue.shade700
-                    ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Los campos marcados con * son obligatorios',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.blue.shade900,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
       ),
       actions: [
-
+        // CANCELAR
         TextButton(
           onPressed: () => Navigator.pop(context),
           style: TextButton.styleFrom(
@@ -178,26 +153,28 @@ class _AddContactFormState extends State<AddContactForm> {
           child: Text('Cancelar'),
         ),
 
+        //GUARDAR
         ElevatedButton.icon(
           onPressed: _crearContacto,
-          icon: Icon(Icons.save),
           label: Text('Guardar'),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),
         ),
       ],
     );
   }
 
-  Future<void> _crearContacto() async {
-    if (!formKey.currentState!.validate()) return;
+  void _crearContacto() {
+    if (!_formKey.currentState!.validate()) return;
 
     final nuevoContacto = Contacto(
-      nombre: nombreCtrl.text.trim(),
-      correo: correoCtrl.text.trim(),
-      descripcion: descripcionCtrl.text.trim(),
+      nombre: _nombreCtrl.text.trim(),
+      correo: _correoCtrl.text.trim(),
+      telefono: _telefonoCtrl.text.trim(),
+      descripcion: _descripcionCtrl.text.trim(),
       foto: '',
       esFavorito: false,
     );

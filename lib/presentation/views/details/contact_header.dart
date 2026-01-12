@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:contactos/presentation/widgets/profile_picture.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/entities/contacto.dart';
 
@@ -22,7 +23,7 @@ class ContactHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 40),
       child: Column(
         children: [
-          _buildAvatar(),
+          ProfilePicture(contact: contacto, radius: 60, fontSize: 50,),
           SizedBox(height: 16),
           Text(
             contacto.nombre,
@@ -46,47 +47,6 @@ class ContactHeader extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildAvatar() {
-    if (contacto.foto.isNotEmpty && File(contacto.foto).existsSync()) {
-      return Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 4),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: CircleAvatar(
-          radius: 60,
-          backgroundImage: FileImage(File(contacto.foto)),
-        ),
-      );
-    } else {
-      return Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 4),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        child: CircleAvatar(
-          radius: 60,
-          backgroundColor: Colors.white,
-          child: CircleAvatar(child: Icon(Icons.person)),
-        ),
-      );
-    }
   }
 
   Widget _buildFavoritoBadge() {

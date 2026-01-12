@@ -11,6 +11,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Contacts DDD',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        useMaterial3: true,
+      ),
       home: MainNavigation(),
       debugShowCheckedModeBanner: false,
     );

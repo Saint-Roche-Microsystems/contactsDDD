@@ -1,9 +1,9 @@
-import 'dart:io';
-import 'package:contactos/presentation/views/details/contact_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../domain/entities/contacto.dart';
-import '../providers/contacto_provider.dart';
+
+import 'details/contact_header.dart';
 
 class DetalleContactoPage extends ConsumerStatefulWidget {
   final Contacto contacto;
