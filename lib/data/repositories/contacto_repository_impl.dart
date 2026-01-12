@@ -20,4 +20,24 @@ class ContactoRepositoryImpl implements ContactoRepository{
   Future<List<Contacto>> obtenerContactos() {
     return local.obtenerContactos();
   }
+
+  @override
+  Future<Contacto> obtenerContactoPorId(int id) {
+    return local.obtenerContactoPorId(id);
+  }
+
+  @override
+  Future<bool> actualizarContacto(Contacto contacto) {
+    return actualizarContacto(contacto);
+  }
+
+  @override
+  Future<bool> cambiarFavorito(int id, bool esFavorito) {
+    return local.cambiarFavorito(id, esFavorito);
+  }
+
+  @override
+  Future<int> eliminarContacto(int id) {
+    return local.eliminarContacto(id);
+  }
 }

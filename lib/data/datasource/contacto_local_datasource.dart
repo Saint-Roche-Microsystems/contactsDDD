@@ -14,7 +14,23 @@ class ContactoLocalDataSource {
     return await db.obtenerFavoritos();
   }
 
+  Future<Contacto> obtenerContactoPorId(int id) async {
+    return await db.obtenerContacto(id);
+  }
+
   Future<void> insertarContacto(Contacto c) async {
     await db.insertarContacto(c);
+  }
+
+  Future<bool> actualizarContacto(Contacto c) async {
+    return await db.actualizarContacto(c);
+  }
+
+  Future<bool> cambiarFavorito(int id, bool esFavorito) async {
+    return await db.toggleFavorito(id, esFavorito);
+  }
+
+  Future<int> eliminarContacto(int id) async {
+    return await db.eliminarContacto(id);
   }
 }

@@ -72,9 +72,38 @@ class AppDatabase extends _$AppDatabase {
     return _toEntityList(queryResult);
   }
 
+  Future<Contacto> obtenerContacto(int id) async {
+    final queryResult = await (select(contactosSchema)
+          ..where((tbl) => tbl.id.equals(id)))
+        .getSingle();
+    return _toEntity(queryResult);
+  }
+
   Future<void> insertarContacto(Contacto c) async {
     final companion = _toCompanion(c);
     await into(contactosSchema).insert(companion);
+  }
+
+  Future<bool> actualizarContacto(Contacto c) async {
+    final data = _toData(c);
+    final rowsAffected = await update(contactosSchema).replace(data);
+    return rowsAffected;
+  }
+
+  Future<bool> toggleFavorito(int id, bool esFavorito) async {
+    final rowsAffected = await (update(contactosSchema)
+          ..where((tbl) => tbl.id.equals(id)))
+        .write(ContactosSchemaCompanion(
+      esFavorito: Value(esFavorito),
+    ));
+    return rowsAffected > 0;
+  }
+
+  Future<int> eliminarContacto(int id) async {
+    final rowsDeleted = await (delete(contactosSchema)
+          ..where((tbl) => tbl.id.equals(id)))
+        .go();
+    return rowsDeleted;
   }
 }
 
