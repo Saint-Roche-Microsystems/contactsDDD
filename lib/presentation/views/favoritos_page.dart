@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/contacto_provider.dart';
 
 class FavoritosPage extends ConsumerWidget {
+  const FavoritosPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favoritos = ref.watch(favoritosProvider);

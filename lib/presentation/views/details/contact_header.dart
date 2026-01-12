@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:contactos/presentation/widgets/profile_picture.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/entities/contacto.dart';

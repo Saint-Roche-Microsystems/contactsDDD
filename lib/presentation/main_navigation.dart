@@ -6,6 +6,8 @@ import 'views/contacto_page.dart';
 final navigationIndexProvider = StateProvider<int>((ref) => 0);
 
 class MainNavigation extends ConsumerWidget {
+  const MainNavigation({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationIndexProvider);

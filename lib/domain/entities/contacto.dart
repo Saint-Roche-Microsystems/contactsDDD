@@ -65,7 +65,7 @@ class Contacto {
 
   /**************/
   /* VALIDATORS */
-  /**************/
+  /// ***********
 
   bool get esValido {
     return nombre.trim().isNotEmpty &&
