@@ -42,6 +42,13 @@ final contactoProvider = StateNotifierProvider<ContactoNotifier, AsyncValue<List
     }
 );
 
+final favoritosProvider = StateNotifierProvider<FavoritosNotifier, AsyncValue<List<Contacto>>>(
+    (ref) {
+      final usecase = ref.watch(gestionarContactosProvider);
+      return FavoritosNotifier(usecase);
+    }
+);
+
 /*=====================*/
 /* State Notifiers */
 /*=====================*/
@@ -57,6 +64,7 @@ class ContactoNotifier extends StateNotifier<AsyncValue<List<Contacto>>> {
 
     try {
       final contactos = await _usecase.listar();
+      print('Nombre: ${contactos[0].nombre}, Favorito: ${contactos[0].esFavorito}');
       state = AsyncValue.data(contactos);
     } catch (e, st) {
       state = AsyncValue.error(e, st);
@@ -70,6 +78,25 @@ class ContactoNotifier extends StateNotifier<AsyncValue<List<Contacto>>> {
     } catch (e, st) {
       state = AsyncValue.error(e, st);
       rethrow;
+    }
+  }
+}
+
+class FavoritosNotifier extends StateNotifier<AsyncValue<List<Contacto>>> {
+  final GestionarContactos _usecase;
+
+  FavoritosNotifier(this._usecase) : super(const AsyncValue.loading()) {
+    cargar();
+  }
+
+  Future<void> cargar() async {
+    state = const AsyncValue.loading();
+
+    try {
+      final favoritos = await _usecase.listarFavoritos();
+      state = AsyncValue.data(favoritos);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
     }
   }
 }

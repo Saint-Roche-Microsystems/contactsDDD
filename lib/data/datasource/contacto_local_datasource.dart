@@ -6,8 +6,12 @@ class ContactoLocalDataSource {
 
   ContactoLocalDataSource(this.db);
 
-  Future<List<Contacto>>  obtenerContactos() async {
+  Future<List<Contacto>> obtenerContactos() async {
     return await db.obtenerContactos();
+  }
+
+  Future<List<Contacto>> obtenerFavoritos() async {
+    return await db.obtenerFavoritos();
   }
 
   Future<void> insertarContacto(Contacto c) async {

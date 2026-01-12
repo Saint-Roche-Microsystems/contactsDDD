@@ -65,6 +65,13 @@ class AppDatabase extends _$AppDatabase {
     return _toEntityList(queryResult);
   }
 
+  Future<List<Contacto>> obtenerFavoritos() async {
+    final queryResult = await (select(contactosSchema)
+          ..where((tbl) => tbl.esFavorito.equals(true)))
+        .get();
+    return _toEntityList(queryResult);
+  }
+
   Future<void> insertarContacto(Contacto c) async {
     final companion = _toCompanion(c);
     await into(contactosSchema).insert(companion);

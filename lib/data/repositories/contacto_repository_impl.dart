@@ -12,6 +12,11 @@ class ContactoRepositoryImpl implements ContactoRepository{
   }
 
   @override
+  Future<List<Contacto>> obtenerFavoritos() {
+   return local.obtenerFavoritos();
+  }
+
+  @override
   Future<List<Contacto>> obtenerContactos() {
     return local.obtenerContactos();
   }
