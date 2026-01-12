@@ -64,7 +64,6 @@ class ContactoNotifier extends StateNotifier<AsyncValue<List<Contacto>>> {
 
     try {
       final contactos = await _usecase.listar();
-      print('Nombre: ${contactos[0].nombre}, Favorito: ${contactos[0].esFavorito}');
       state = AsyncValue.data(contactos);
     } catch (e, st) {
       state = AsyncValue.error(e, st);
@@ -74,6 +73,38 @@ class ContactoNotifier extends StateNotifier<AsyncValue<List<Contacto>>> {
   Future<void> agregar(Contacto c) async {
     try {
       await _usecase.agregar(c);
+      await cargar();
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> actualizar(Contacto c) async {
+    try {
+      final actualizado = await _usecase.actualizar(c);
+      if(actualizado) {
+        await cargar();
+      }
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> cambiarFavorito(int id, bool esFavorito) async {
+    try {
+      await _usecase.cambiarFavorito(id, esFavorito);
+      await cargar();
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> eliminar(int id) async {
+    try {
+      await _usecase.eliminar(id);
       await cargar();
     } catch (e, st) {
       state = AsyncValue.error(e, st);
