@@ -7,5 +7,6 @@ class ContactosSchema extends Table {
   TextColumn get descripcion => text()();
   TextColumn get foto => text()();
   TextColumn get correo => text().withLength(min: 1, max: 100)();
+  TextColumn get telefono => text().withLength(min: 7, max: 20)();
   BoolColumn get esFavorito => boolean().withDefault(const Constant(false))();
 }

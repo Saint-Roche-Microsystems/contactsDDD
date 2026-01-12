@@ -11,11 +11,13 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   /*=================*/
   /* Utilities */
   /*=================*/
+
+  /// From Contacto (entity) ---> ContactosSchemaCompanion (Drift)
   ContactosSchemaCompanion _toCompanion(Contacto c) {
     return ContactosSchemaCompanion(
       id: c.id != null ? Value(c.id!) : const Value.absent(),
@@ -23,10 +25,12 @@ class AppDatabase extends _$AppDatabase {
       descripcion: Value(c.descripcion),
       foto: Value(c.foto),
       correo: Value(c.correo),
+      telefono: Value(c.telefono),
       esFavorito: Value(c.esFavorito),
     );
   }
 
+  /// From Contacto (entity) ---> ContactoData (Drift)
   ContactoData _toData(Contacto c) {
     if (c.id == null) {
       throw Exception('No se puede convertir un Contacto sin ID a ContactoData');
@@ -37,10 +41,12 @@ class AppDatabase extends _$AppDatabase {
       descripcion: c.descripcion,
       foto: c.foto,
       correo: c.correo,
+      telefono: c.telefono,
       esFavorito: c.esFavorito,
     );
   }
 
+  /// From ContactoData (Drift) ---> Contacto (entity)
   Contacto _toEntity(ContactoData data) {
     return Contacto(
       id: data.id,
@@ -48,17 +54,18 @@ class AppDatabase extends _$AppDatabase {
       descripcion: data.descripcion,
       foto: data.foto,
       correo: data.correo,
+      telefono: data.telefono,
       esFavorito: data.esFavorito,
     );
+  }
+
+  List<Contacto> _toEntityList(List<ContactoData> dataList) {
+    return dataList.map(_toEntity).toList();
   }
 
   /*=================*/
   /* Operations */
   /*=================*/
-  List<Contacto> _toEntityList(List<ContactoData> dataList) {
-    return dataList.map(_toEntity).toList();
-  }
-
   /* CRUD operations */
   Future<List<Contacto>> obtenerContactos() async {
     final queryResult = await select(contactosSchema).get();
