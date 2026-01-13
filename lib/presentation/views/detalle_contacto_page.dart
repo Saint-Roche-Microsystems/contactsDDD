@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/contacto.dart';
 import '../../controllers/contacto_controller.dart';
 
-import '../providers/contacto_provider.dart';
 import '../widgets/contact_delete_dialog.dart';
 import '../widgets/contact_edit_dialog.dart';
 
@@ -57,7 +56,7 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
         IconButton(
           icon: Icon(
             _currentContact.esFavorito ? Icons.star : Icons.star_border,
-            color: _currentContact.esFavorito ? Colors.blue : null,
+            color: Colors.blue,
           ),
           onPressed: _toggleFavorito,
           tooltip: _currentContact.esFavorito
@@ -75,7 +74,15 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
 
   Future<void> _toggleFavorito() async {
     final controller = ContactoController(ref: ref, context: context);
-    await controller.toggleFavorito(_currentContact.id!, !_currentContact.esFavorito);
+    final cambiado = await controller.toggleFavorito(_currentContact.id!, !_currentContact.esFavorito);
+
+    if(!cambiado) return;
+
+    setState(() {
+      _currentContact = _currentContact.copyWith(
+          esFavorito: !_currentContact.esFavorito
+      );
+    });
   }
 
   Future<void> _mostrarFormularioEditar() async {
@@ -91,11 +98,9 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
 
     if(!cambiado) return;
 
-    // setState(() {
-    //   _currentContact = _currentContact.copyWith(
-    //     esFavorito: !_currentContact.esFavorito,
-    //   );
-    // });
+    setState(() {
+      _currentContact = contactoEditado;
+    });
   }
 
   Future<void> _mostrarDialogoEliminar() async {

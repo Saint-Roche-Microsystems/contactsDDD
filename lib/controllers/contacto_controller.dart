@@ -31,8 +31,6 @@ class ContactoController {
   Future<bool> actualizarContacto(Contacto contacto) async {
     try {
       await ref.read(contactoProvider.notifier).actualizar(contacto);
-
-      _mostrarMensajeExito('Contacto actualizado exitosamente');
       return true;
     } catch (e) {
       _mostrarMensajeError('Error al actualizar contacto: $e');
@@ -57,10 +55,6 @@ class ContactoController {
   Future<bool> toggleFavorito(int id, bool esFavorito) async {
     try {
       await ref.read(contactoProvider.notifier).cambiarFavorito(id, esFavorito);
-
-      _mostrarMensajeExito(
-        esFavorito ? 'Agregado a favoritos' : 'Quitado de favoritos',
-      );
       return true;
     } catch (e) {
       _mostrarMensajeError('Error al actualizar favorito: $e');
@@ -132,55 +126,5 @@ class ContactoController {
         duration: Duration(seconds: 4),
       ),
     );
-  }
-
-  /// Mostrar mensaje de advertencia
-  void _mostrarMensajeAdvertencia(String mensaje) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Icons.warning, color: Colors.white),
-            SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                mensaje,
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.orange,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        duration: Duration(seconds: 3),
-      ),
-    );
-  }
-
-  // ============================================
-  // VALIDACIONES
-  // ============================================
-
-  /// Validar antes de guardar
-  bool validarContacto(Contacto contacto) {
-    if (contacto.nombre.trim().isEmpty) {
-      _mostrarMensajeAdvertencia('El nombre es obligatorio');
-      return false;
-    }
-
-    if (contacto.correo.trim().isEmpty) {
-      _mostrarMensajeAdvertencia('El correo es obligatorio');
-      return false;
-    }
-
-    if (!Contacto.validarCorreo(contacto.correo)) {
-      _mostrarMensajeAdvertencia('El correo no tiene un formato válido');
-      return false;
-    }
-
-    return true;
   }
 }

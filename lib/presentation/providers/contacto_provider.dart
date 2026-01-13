@@ -82,10 +82,7 @@ class ContactoNotifier extends StateNotifier<AsyncValue<List<Contacto>>> {
 
   Future<void> actualizar(Contacto c) async {
     try {
-      final actualizado = await _usecase.actualizar(c);
-      if(actualizado) {
-        await cargar();
-      }
+      await _usecase.actualizar(c);
     } catch (e, st) {
       state = AsyncValue.error(e, st);
       rethrow;

@@ -28,7 +28,7 @@ class ContactoRepositoryImpl implements ContactoRepository{
 
   @override
   Future<bool> actualizarContacto(Contacto contacto) {
-    return actualizarContacto(contacto);
+    return local.actualizarContacto(contacto);
   }
 
   @override
