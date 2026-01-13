@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/contacto.dart';
+import '../../controllers/contacto_controller.dart';
 
+import '../providers/contacto_provider.dart';
+import '../widgets/contact_delete_dialog.dart';
+import '../widgets/contact_edit_dialog.dart';
+
+import 'details/contact_info_section.dart';
 import 'details/contact_header.dart';
 
 class DetalleContactoPage extends ConsumerStatefulWidget {
@@ -31,6 +37,7 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
           children: [
             ContactHeader(contacto: _currentContact),
             SizedBox(height: 24),
+            ContactInfoSection(contacto: _currentContact),
           ],
         ),
       ),
@@ -67,15 +74,42 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
   }
 
   Future<void> _toggleFavorito() async {
-
+    final controller = ContactoController(ref: ref, context: context);
+    await controller.toggleFavorito(_currentContact.id!, !_currentContact.esFavorito);
   }
 
   Future<void> _mostrarFormularioEditar() async {
+    final contactoEditado = await showDialog<Contacto>(
+      context: context,
+      builder: (context) => ContactEditDialog(contacto: _currentContact),
+    );
 
+    if(contactoEditado == null) return;
+
+    final controller = ContactoController(ref: ref, context: context);
+    final cambiado = await controller.actualizarContacto(contactoEditado);
+
+    if(!cambiado) return;
+
+    // setState(() {
+    //   _currentContact = _currentContact.copyWith(
+    //     esFavorito: !_currentContact.esFavorito,
+    //   );
+    // });
   }
 
   Future<void> _mostrarDialogoEliminar() async {
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (context) => ContactDeleteDialog(contacto: _currentContact),
+    );
 
+    if (confirmar == null || !confirmar) return;
+
+    final controller = ContactoController(ref: ref, context: context);
+    await controller.eliminarContacto(_currentContact.id!);
+
+    Navigator.pop(context);
   }
 
 }
