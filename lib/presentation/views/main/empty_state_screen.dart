@@ -44,30 +44,6 @@ class EmptyStateScreen extends StatelessWidget {
                 height: 1.5,
               ),
             ),
-            SizedBox(height: 32),
-
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.blue.shade200),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add_circle, color: Colors.blue.shade700),
-                  SizedBox(width: 8),
-                  Text(
-                    'Presiona el botón "Nuevo"',
-                    style: TextStyle(
-                      color: Colors.blue.shade900,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
