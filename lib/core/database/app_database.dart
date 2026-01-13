@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+
 import '../schemas/contactos.schema.dart';
 import '../../domain/entities/contacto.dart';
 
@@ -68,13 +69,16 @@ class AppDatabase extends _$AppDatabase {
   /*=================*/
   /* CRUD operations */
   Future<List<Contacto>> obtenerContactos() async {
-    final queryResult = await select(contactosSchema).get();
+    final queryResult = await (select(contactosSchema)
+          ..orderBy([(tbl) => OrderingTerm(expression: tbl.nombre, mode: OrderingMode.asc)]))
+        .get();
     return _toEntityList(queryResult);
   }
 
   Future<List<Contacto>> obtenerFavoritos() async {
     final queryResult = await (select(contactosSchema)
-          ..where((tbl) => tbl.esFavorito.equals(true)))
+          ..where((tbl) => tbl.esFavorito.equals(true))
+          ..orderBy([(tbl) => OrderingTerm(expression: tbl.nombre, mode: OrderingMode.asc)]))
         .get();
     return _toEntityList(queryResult);
   }
