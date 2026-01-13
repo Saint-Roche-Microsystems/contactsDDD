@@ -1,10 +1,9 @@
-import 'package:contactos/presentation/providers/contacto_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/contacto.dart';
 
-/// Controlador que maneja la lógica de negocio de contactos
-/// Separado de la UI para mejor organización y testing
+import '../../domain/entities/contacto.dart';
+import '../presentation/providers/contacto_provider.dart';
+
 class ContactoController {
   final WidgetRef ref;
   final BuildContext context;
@@ -55,6 +54,7 @@ class ContactoController {
   Future<bool> toggleFavorito(int id, bool esFavorito) async {
     try {
       await ref.read(contactoProvider.notifier).cambiarFavorito(id, esFavorito);
+      await ref.read(favoritosProvider.notifier).cargar();
       return true;
     } catch (e) {
       _mostrarMensajeError('Error al actualizar favorito: $e');
