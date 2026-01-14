@@ -1,3 +1,4 @@
+import 'package:contactos/themes/color_schema.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/profile_picture.dart';
@@ -21,7 +22,7 @@ class ContactHeader extends StatelessWidget {
             style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: SaintColors.contrast,
               shadows: [
                 Shadow(
                   blurRadius: 4,

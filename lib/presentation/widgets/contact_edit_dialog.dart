@@ -162,10 +162,6 @@ class _ContactEditDialogState extends State<ContactEditDialog> {
         ElevatedButton.icon(
           onPressed: _guardarCambios,
           label: Text('Guardar'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-          ),
         ),
       ],
     );

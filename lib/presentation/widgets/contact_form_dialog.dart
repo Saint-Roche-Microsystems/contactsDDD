@@ -158,8 +158,6 @@ class _ContactFormDialogState extends State<ContactFormDialog> {
           onPressed: _crearContacto,
           label: Text('Guardar'),
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),
         ),

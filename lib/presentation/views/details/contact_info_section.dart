@@ -1,3 +1,4 @@
+import 'package:contactos/themes/color_schema.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/entities/contacto.dart';
 
@@ -17,7 +18,7 @@ class ContactInfoSection extends StatelessWidget {
           _InfoCard(
             icon: Icons.phone,
             value: contacto.telefonoFormateado,
-            color: Colors.green,
+            color: SaintColors.success,
           ),
           SizedBox(height: 16),
 
@@ -25,7 +26,7 @@ class ContactInfoSection extends StatelessWidget {
           _InfoCard(
             icon: Icons.email,
             value: contacto.correo,
-            color: Colors.blue,
+            color: SaintColors.primary,
           ),
           SizedBox(height: 16),
 
@@ -34,7 +35,7 @@ class ContactInfoSection extends StatelessWidget {
             _InfoCard(
               icon: Icons.description,
               value: contacto.descripcion,
-              color: Colors.orange,
+              color: SaintColors.contrast,
             ),
           SizedBox(height: 80),
         ],

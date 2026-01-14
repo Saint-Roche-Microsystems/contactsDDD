@@ -1,3 +1,4 @@
+import 'package:contactos/themes/color_schema.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,7 +57,7 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
         IconButton(
           icon: Icon(
             _currentContact.esFavorito ? Icons.star : Icons.star_border,
-            color: Colors.blue,
+            color: SaintColors.surface,
           ),
           onPressed: _toggleFavorito,
           tooltip: _currentContact.esFavorito
@@ -64,7 +65,7 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
               : 'Agregar a favoritos',
         ),
         IconButton(
-          icon: Icon(Icons.delete, color: Colors.red),
+          icon: Icon(Icons.delete, color: SaintColors.error),
           onPressed: _mostrarDialogoEliminar,
           tooltip: 'Eliminar contacto',
         ),
