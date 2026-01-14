@@ -32,6 +32,26 @@ class ContactHeader extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(height: 16),
+
+          Text(
+            contacto.telefono,
+            style: TextStyle(
+              fontSize: 16,
+              color: SaintColors.secondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 12),
+
+          Text(
+            contacto.correo,
+            style: TextStyle(
+              fontSize: 16,
+              color: SaintColors.secondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

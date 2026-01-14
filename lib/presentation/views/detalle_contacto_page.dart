@@ -36,7 +36,6 @@ class _DetalleContactoPageState extends ConsumerState<DetalleContactoPage> {
         child: Column(
           children: [
             ContactHeader(contacto: _currentContact),
-            SizedBox(height: 24),
             ContactInfoSection(contacto: _currentContact),
           ],
         ),

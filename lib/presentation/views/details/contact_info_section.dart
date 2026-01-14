@@ -1,6 +1,8 @@
-import 'package:contactos/presentation/widgets/call_button.dart';
-import 'package:contactos/themes/color_schema.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/call_button.dart';
+import '../../widgets/info_card.dart';
+import '../../../themes/color_schema.dart';
 import '../../../domain/entities/contacto.dart';
 
 class ContactInfoSection extends StatelessWidget {
@@ -10,7 +12,7 @@ class ContactInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,64 +40,13 @@ class ContactInfoSection extends StatelessWidget {
 
           // DESCRIPCIÓN
           if (contacto.descripcion.isNotEmpty)
-            _InfoCard(
+            InfoCard(
               icon: Icons.description,
               value: contacto.descripcion,
               color: SaintColors.contrast,
             ),
           SizedBox(height: 80),
         ],
-      ),
-    );
-  }
-}
-
-class _InfoCard extends StatelessWidget {
-  final IconData icon;
-  final String value;
-  final Color color;
-
-  const _InfoCard({
-    required this.icon,
-    required this.value,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Icon(icon, color: color, size: 24),
-            ),
-            SizedBox(width: 16),
-
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
