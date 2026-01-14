@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../themes/color_schema.dart';
 import '../../domain/entities/contacto.dart';
 import '../presentation/providers/contacto_provider.dart';
 
@@ -92,7 +93,7 @@ class ContactoController {
             ),
           ],
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: SaintColors.success,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -118,7 +119,7 @@ class ContactoController {
             ),
           ],
         ),
-        backgroundColor: Colors.red,
+        backgroundColor: SaintColors.error,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
