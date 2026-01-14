@@ -1,3 +1,4 @@
+import 'package:contactos/presentation/widgets/call_button.dart';
 import 'package:contactos/themes/color_schema.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/entities/contacto.dart';
@@ -14,20 +15,25 @@ class ContactInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          // TELEFONO
-          _InfoCard(
-            icon: Icons.phone,
-            value: contacto.telefonoFormateado,
-            color: SaintColors.success,
-          ),
-          SizedBox(height: 16),
+          Row(
+            children: [
+              // TELEFONO
+              CallButton(
+                icon: Icons.phone,
+                label: 'Llamar',
+                color: SaintColors.success,
+              ),
+              SizedBox(width: 12),
 
-          // CORREO
-          _InfoCard(
-            icon: Icons.email,
-            value: contacto.correo,
-            color: SaintColors.primary,
+              // CORREO
+              CallButton(
+                icon: Icons.email,
+                label: 'Mensaje',
+                color: SaintColors.primary,
+              ),
+            ],
           ),
+
           SizedBox(height: 16),
 
           // DESCRIPCIÓN
