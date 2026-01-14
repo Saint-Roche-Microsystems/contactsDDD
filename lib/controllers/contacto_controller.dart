@@ -31,6 +31,7 @@ class ContactoController {
   Future<bool> actualizarContacto(Contacto contacto) async {
     try {
       await ref.read(contactoProvider.notifier).actualizar(contacto);
+      await ref.read(contactoProvider.notifier).cargar();
       return true;
     } catch (e) {
       _mostrarMensajeError('Error al actualizar contacto: $e');
