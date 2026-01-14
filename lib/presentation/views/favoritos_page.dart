@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../widgets/contact_item.dart';
 import '../providers/contacto_provider.dart';
 
 class FavoritosPage extends ConsumerWidget {
@@ -36,19 +38,12 @@ class FavoritosPage extends ConsumerWidget {
             }
 
             return ListView.builder(
+              padding: EdgeInsets.symmetric(vertical: 8),
               itemCount: favoritos.length,
               itemBuilder: (_, index) {
                 final contacto = favoritos[index];
-                return ListTile(
-                  leading: contacto.foto.isNotEmpty
-                      ? CircleAvatar(
-                          backgroundImage: NetworkImage(contacto.foto),
-                        )
-                      : CircleAvatar(
-                          child: Icon(Icons.person),
-                        ),
-                  title: Text(contacto.nombre),
-                  subtitle: Text(contacto.descripcion),
+                return ContactItem(
+                  contacto: contacto,
                 );
               },
             );
